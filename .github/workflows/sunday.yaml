@@ -1,0 +1,66 @@
+name: sunday Build
+
+on:
+  push:
+    branches:
+      - 'main'
+    
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Timezone
+        uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "America/Los_Angeles"
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%F_%H-%M')"
+
+      - name: Get current time
+        id: time
+        run: echo "::set-output name=time::$(date +'%F %H:%M')"
+
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install pipenv
+          pipenv install
+
+      - name: Build LaTeX file
+        run: pipenv run python sunday.py
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: sunday.tex
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.date.outputs.date }}
+          release_name: ${{ steps.time.outputs.time }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./sunday.pdf
+          asset_name: sunday.pdf
+          asset_content_type: pdf
