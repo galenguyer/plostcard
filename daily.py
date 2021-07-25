@@ -5,8 +5,8 @@ from string import Template
 headers = {"User-Agent": "plostcards (chef#1911)"}
 valid_divisions = [
     "d4cc18de-a136-4271-84f1-32516be91a80",  # Wild High
-    "98c92da4-0ea7-43be-bd75-c6150e184326",  # Wild Low
     "456089f0-f338-4620-a014-9540868789c9",  # Mild High
+    "98c92da4-0ea7-43be-bd75-c6150e184326",  # Wild Low
     "fadc9684-45b3-47a6-b647-3be3f0735a84",  # Mild Low
 ]
 
@@ -73,9 +73,14 @@ for d_id in valid_divisions:
 
 print(json.dumps(divisions, indent=2))
 
-latex_division = Template("        \\multicolumn{2}{ c }{\\large{$name}} \\\\")
-latex_standing = Template("        $name & $wins ($games)\\\\")
+latex_division = Template("        \\multicolumn{2}{ c }{\\large{$name}} \\\\\n")
+latex_standing = Template("        $name & $wins ($games)\\\\\n")
+standings = ""
 for division in divisions:
-    print(latex_division.substitute(name=division["name"]))
+    standings += ("    \\begin{tabular}{ l c }\n")
+    standings += (latex_division.substitute(name=division["name"]))
     for team in division["teams"]:
-        print(latex_standing.substitute(name=team['fullName'], wins=team['wins'], games=f"{team['gamesPlayed']-team['losses']}-{team['losses']}"))
+        standings += (latex_standing.substitute(name=team['fullName'], wins=team['wins'], games=f"{team['gamesPlayed']-team['losses']}-{team['losses']}"))
+    standings += ("    \\end{tabular}\n")
+    standings += ("    \\vspace{8px}\n")
+print(standings)
