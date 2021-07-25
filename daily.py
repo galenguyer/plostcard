@@ -38,6 +38,11 @@ divisionsData = requests.get(
     "https://www.blaseball.com/database/allDivisions", headers=headers
 ).json()
 
+print("GET https://www.blaseball.com/database/feed/global?&limit=20&sort=3")
+feedData = requests.get(
+    "https://www.blaseball.com/database/feed/global?&limit=20&sort=3", headers=headers
+).json()
+
 teams = []
 for t in allTeamsData:
     team = {}
@@ -68,7 +73,7 @@ for d_id in valid_divisions:
     division["name"] = d["name"]
     division["id"] = d["id"]
     division["teams"] = [t for t in teams if t["id"] in d["teams"]]
-    division["teams"].sort(key = lambda x: x["wins"], reverse=True)
+    division["teams"].sort(key=lambda x: x["wins"], reverse=True)
     divisions.append(division)
 
 print(json.dumps(divisions, indent=2))
@@ -77,10 +82,23 @@ latex_division = Template("        \\multicolumn{2}{ c }{\\large{$name}} \\\\\n"
 latex_standing = Template("        $name & $wins ($games)\\\\\n")
 standings = ""
 for division in divisions:
-    standings += ("    \\begin{tabular}{ l c }\n")
-    standings += (latex_division.substitute(name=division["name"]))
+    standings += "    \\begin{tabular}{ l c }\n"
+    standings += latex_division.substitute(name=division["name"])
     for team in division["teams"]:
-        standings += (latex_standing.substitute(name=team['fullName'], wins=team['wins'], games=f"{team['gamesPlayed']-team['losses']}-{team['losses']}"))
-    standings += ("    \\end{tabular}\n")
-    standings += ("    \\vspace{8px}\n")
-print(standings)
+        standings += latex_standing.substitute(
+            name=team["fullName"],
+            wins=team["wins"],
+            games=f"{team['gamesPlayed']-team['losses']}-{team['losses']}",
+        )
+    standings += "    \\end{tabular}\n"
+    standings += "    \\vspace{8px}\n"
+
+latex_feed = Template("    S$season-$day & $description\\\\")
+feed = ""
+for f in feedData:
+    feed += latex_feed.substitute(season=f["season"], day=f["day"], description=f["description"]) + "\n"
+    
+with open("template.tex", "r") as fd:
+    template = fd.read()
+    with open("daily.tex", "w") as wd:
+        wd.write(Template(template).substitute(standings=standings, feed=feed))
