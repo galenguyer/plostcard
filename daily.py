@@ -98,7 +98,7 @@ feed = ""
 for f in feedData:
     feed += latex_feed.substitute(season=f["season"]+1, day=f["day"]+1, description=f["description"]) + "\n"
     
-with open("template.tex", "r") as fd:
+with open("daily.template", "r") as fd:
     template = fd.read()
     with open("daily.tex", "w") as wd:
         wd.write(Template(template).substitute(standings=standings, feed=feed))
