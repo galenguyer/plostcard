@@ -96,7 +96,7 @@ for division in divisions:
 latex_feed = Template("    S$season-$day & $description\\\\")
 feed = ""
 for f in feedData:
-    feed += latex_feed.substitute(season=f["season"], day=f["day"], description=f["description"]) + "\n"
+    feed += latex_feed.substitute(season=f["season"]+1, day=f["day"]+1, description=f["description"]) + "\n"
     
 with open("template.tex", "r") as fd:
     template = fd.read()
