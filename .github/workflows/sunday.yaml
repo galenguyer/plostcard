@@ -2,7 +2,7 @@ name: Sunday Build
 
 on:
   schedule:
-    cron: '0 9 * * SUN'
+    - cron: '0 9 * * SUN'
     
 jobs:
   build_latex:
