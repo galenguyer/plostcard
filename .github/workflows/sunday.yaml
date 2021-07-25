@@ -1,9 +1,8 @@
-name: sunday Build
+name: Sunday Build
 
 on:
-  push:
-    branches:
-      - 'main'
+  schedule:
+    cron: '0 9 * * SUN'
     
 jobs:
   build_latex:
