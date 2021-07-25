@@ -37,7 +37,7 @@ divisionsData = requests.get(
     "https://www.blaseball.com/database/allDivisions", headers=headers
 ).json()
 
-teams = {}
+teams = []
 for t in allTeamsData:
     team = {}
     team["id"] = t["id"]
@@ -56,6 +56,17 @@ for t in allTeamsData:
         else 0
     )
     team["emoji"] = t["emoji"]
-    teams[t["id"]] = team
+    teams.append(team)
 
 print(json.dumps(teams, indent=2))
+
+divisions = []
+for d_id in valid_divisions:
+    d = [div for div in divisionsData if div["id"] == d_id][0]
+    division = {}
+    division["name"] = d["name"]
+    division["id"] = d["id"]
+    division["teams"] = [t for t in teams if t["id"] in d["teams"]]
+    divisions.append(division)
+
+print(json.dumps(divisions, indent=2))
