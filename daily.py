@@ -1,5 +1,6 @@
 import requests
 import json
+from string import Template
 
 headers = {"User-Agent": "plostcards (chef#1911)"}
 valid_divisions = [
@@ -72,7 +73,9 @@ for d_id in valid_divisions:
 
 print(json.dumps(divisions, indent=2))
 
+latex_division = Template("        \\multicolumn{2}{ c }{\\large{$name}} \\\\")
+latex_standing = Template("        $name & $wins ($games)\\\\")
 for division in divisions:
-    print(division["name"])
+    print(latex_division.substitute(name=division["name"]))
     for team in division["teams"]:
-        print(f"\t{team['fullName']}{' '*(32-len(team['fullName']))}{team['wins']} ({team['gamesPlayed']-team['losses']}-{team['losses']})")
+        print(latex_standing.substitute(name=team['fullName'], wins=team['wins'], games=f"{team['gamesPlayed']-team['losses']}-{team['losses']}"))
