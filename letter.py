@@ -67,6 +67,12 @@ for d_id in valid_divisions:
     division["name"] = d["name"]
     division["id"] = d["id"]
     division["teams"] = [t for t in teams if t["id"] in d["teams"]]
+    division["teams"].sort(key = lambda x: x["wins"], reverse=True)
     divisions.append(division)
 
 print(json.dumps(divisions, indent=2))
+
+for division in divisions:
+    print(division["name"])
+    for team in division["teams"]:
+        print(f"\t{team['fullName']}{' '*(32-len(team['fullName']))}{team['wins']} ({team['gamesPlayed']-team['losses']}-{team['losses']})")
