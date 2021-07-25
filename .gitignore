@@ -4,5 +4,4 @@
 *.log  
 *.pdf  
 *.synctex.gz  
-daily.*
-!daily.py
+*.tex

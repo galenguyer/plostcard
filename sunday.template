@@ -1,0 +1,35 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{titling}
+
+\setlength{\droptitle}{-2cm}
+\thispagestyle{empty}
+
+\begin{document}
+    \begin{center}    
+        \huge\bfseries Sunday Blaseball Blast\\
+        \large\today
+    \end{center}
+
+    \begin{center}
+        \large\bfseries Your Season $season winners are the $winner!
+    \end{center}
+
+    \begin{center}
+        \large\bfseries{Standings}
+    \end{center}
+    \begin{table}[h]
+    \centering
+    $standings
+    \end{table}
+
+    \begin{center}
+        \large\bfseries{Feed}
+    \end{center}
+    \begin{table}[h]
+    \centering
+    \begin{tabular}{ c l }
+    $feed
+    \end{tabular}
+    \end{table}
+\end{document}
