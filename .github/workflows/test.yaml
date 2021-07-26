@@ -1,9 +1,10 @@
 name: Daily Build
 
 on:
-  schedule:
-    - cron: '0 9 * * TUE-SAT'
-    
+  push:
+    branches:
+      - main
+
 jobs:
   build_latex:
     runs-on: ubuntu-latest
