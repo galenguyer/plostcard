@@ -26,8 +26,8 @@ headers = {
 recipients = [
     {
         "address_name": os.environ["G_ADDRESS_NAME"],
-        "address_line": os.environ["G_ADDRESS_LINE_1"],
-        "address_line": os.environ.get("G_ADDRESS_LINE_2"),
+        "address_line_1": os.environ["G_ADDRESS_LINE_1"],
+        "address_line_2": os.environ.get("G_ADDRESS_LINE_2"),
         "address_city": os.environ["G_ADDRESS_CITY"],
         "address_state": os.environ["G_ADDRESS_STATE"],
         "address_postal_code": int(os.environ["G_ADDRESS_POSTAL_CODE"]),
