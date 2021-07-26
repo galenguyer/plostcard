@@ -25,13 +25,13 @@ headers = {
 
 recipients = [
     {
-        "address_name": os.environ["ADDRESS_NAME_1"],
-        "address_line_1": os.environ["ADDRESS_LINE_1_1"],
-        "address_line_1": os.environ.get("ADDRESS_LINE_2_1"),
-        "address_city": os.environ["ADDRESS_CITY_1"],
-        "address_state": os.environ["ADDRESS_STATE_1"],
-        "address_postal_code": int(os.environ["ADDRESS_POSTAL_CODE_1"]),
-        "address_country": os.environ["ADDRESS_COUNTRY_1"],
+        "address_name": os.environ["G_ADDRESS_NAME"],
+        "address_line": os.environ["G_ADDRESS_LINE_1"],
+        "address_line": os.environ.get("G_ADDRESS_LINE_2"),
+        "address_city": os.environ["G_ADDRESS_CITY"],
+        "address_state": os.environ["G_ADDRESS_STATE"],
+        "address_postal_code": int(os.environ["G_ADDRESS_POSTAL_CODE"]),
+        "address_country": os.environ["G_ADDRESS_COUNTRY"],
         "return_address_id": int(os.environ["RETURN_ADDRESS_ID"]),
         "schedule": int(time.time())+(1*60*60)
     }
