@@ -63,3 +63,6 @@ jobs:
           asset_path: ./daily.pdf
           asset_name: daily.pdf
           asset_content_type: pdf
+
+      - name: Build LaTeX file
+        run: pipenv run python sendmail.py

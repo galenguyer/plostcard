@@ -46,5 +46,5 @@ data = {
     "recipients": recipients
 }
 
-r = requests.post(' https://rest.clicksend.com/v3/post/letters/send', json=data, headers=headers)
-print(json.dumps(r.json(), indent=4))
+requests.post(' https://rest.clicksend.com/v3/post/letters/send', json=data, headers=headers)
+
