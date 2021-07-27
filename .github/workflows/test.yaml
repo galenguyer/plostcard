@@ -35,32 +35,47 @@ jobs:
           python -m pip install pipenv
           pipenv install
 
-      - name: Build LaTeX file
-        run: pipenv run python daily.py
+      # - name: Build LaTeX file
+      #   run: pipenv run python daily.py
 
-      - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v2
-        with:
-          root_file: daily.tex
+      # - name: Compile LaTeX document
+      #   uses: xu-cheng/latex-action@v2
+      #   with:
+      #     root_file: daily.tex
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     taGALEN_name: ${{ steps.date.outputs.date }}
+      #     release_name: ${{ steps.time.outputs.time }}
+      #     draft: false
+      #     prerelease: false
+
+      # - name: Upload Release Asset
+      #   id: upload-release-asset 
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }} 
+      #     asset_path: ./daily.pdf
+      #     asset_name: daily.pdf
+      #     asset_content_type: pdf
+
+      - name: Send Mail
+        run: |
+          pipenv run python sendmail.py
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.date.outputs.date }}
-          release_name: ${{ steps.time.outputs.time }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: ./daily.pdf
-          asset_name: daily.pdf
-          asset_content_type: pdf
+          CLICKSEND_USERNAME: ${{ secrets.CLICKSEND_USERNAME }}
+          CLICKSEND_PASSWORD: ${{ secrets.CLICKSEND_PASSWORD }}
+          GALEN_ADDRESS_NAME: ${{ secrets.GALEN_ADDRESS_NAME }}
+          GALEN_ADDRESS_LINE_1: ${{ secrets.GALEN_ADDRESS_LINE_1 }}
+          GALEN_ADDRESS_LINE_2: ${{ secrets.GALEN_ADDRESS_LINE_2 }}
+          GALEN_ADDRESS_CITY: ${{ secrets.GALEN_ADDRESS_CITY }}
+          GALEN_ADDRESS_STATE: ${{ secrets.GALEN_ADDRESS_STATE }}
+          GALEN_ADDRESS_POSTAL_CODE: ${{ secrets.GALEN_ADDRESS_POSTAL_CODE }}
+          GALEN_ADDRESS_COUNTRY: ${{ secrets.GALEN_ADDRESS_COUNTRY }}
+          RETURN_ADDRESS_ID: ${{ secrets.RETURN_ADDRESS_ID }}

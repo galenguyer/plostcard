@@ -1,3 +1,4 @@
+from posix import environ
 import time
 import os
 import base64
@@ -23,15 +24,32 @@ headers = {
     'Content-Type': 'application/json'
 }
 
+if os.environ.get("GALEN_ADDRESS_NAME") == "":
+    print("Missing GALEN_ADDRESS_NAME")
+if os.environ.get("GALEN_ADDRESS_LINE_1") == "":
+    print("Missing GALEN_ADDRESS_LINE_1")
+if os.environ.get("GALEN_ADDRESS_LINE_2") == "":
+    print("Missing GALEN_ADDRESS_LINE_2")
+if os.environ.get("GALEN_ADDRESS_CITY") == "":
+    print("Missing GALEN_ADDRESS_CITY")
+if os.environ.get("GALEN_ADDRESS_STATE") == "":
+    print("Missing GALEN_ADDRESS_CITY")
+if os.environ.get("GALEN_ADDRESS_POSTAL_CODE") == "":
+    print("Missing GALEN_ADDRESS_POSTAL_CODE")
+if os.environ.get("GALEN_ADDRESS_COUNTRY") == "":
+    print("Missing GALEN_ADDRESS_COUNTRY")
+if os.environ.get("RETURN_ADDRESS_ID") == "":
+    print("Missing RETURN_ADDRESS_ID")
+
 recipients = [
     {
-        "address_name": os.environ["G_ADDRESS_NAME"],
-        "address_line_1": os.environ["G_ADDRESS_LINE_1"],
-        "address_line_2": os.environ.get("G_ADDRESS_LINE_2"),
-        "address_city": os.environ["G_ADDRESS_CITY"],
-        "address_state": os.environ["G_ADDRESS_STATE"],
-        "address_postal_code": int(os.environ["G_ADDRESS_POSTAL_CODE"]),
-        "address_country": os.environ["G_ADDRESS_COUNTRY"],
+        "address_name": os.environ["GALEN_ADDRESS_NAME"],
+        "address_line_1": os.environ["GALEN_ADDRESS_LINE_1"],
+        "address_line_2": os.environ.get("GALEN_ADDRESS_LINE_2"),
+        "address_city": os.environ["GALEN_ADDRESS_CITY"],
+        "address_state": os.environ["GALEN_ADDRESS_STATE"],
+        "address_postal_code": int(os.environ["GALEN_ADDRESS_POSTAL_CODE"]),
+        "address_country": os.environ["GALEN_ADDRESS_COUNTRY"],
         "return_address_id": int(os.environ["RETURN_ADDRESS_ID"]),
         "schedule": int(time.time())+(24*60*60)
     }
@@ -46,5 +64,5 @@ data = {
     "recipients": recipients
 }
 
-requests.post(' https://rest.clicksend.com/v3/post/letters/send', json=data, headers=headers)
+#requests.post(' https://rest.clicksend.com/v3/post/letters/send', json=data, headers=headers)
 
