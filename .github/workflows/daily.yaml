@@ -7,17 +7,6 @@ on:
 jobs:
   build_latex:
     runs-on: ubuntu-latest
-    env:
-      CLICKSEND_USERNAME: ${{ secrets.CLICKSEND_USERNAME }}
-      CLICKSEND_PASSWORD: ${{ secrets.CLICKSEND_PASSWORD }}
-      G_ADDRESS_NAME: ${{ secrets.G_ADDRESS_NAME }}
-      G_ADDRESS_LINE_1: ${{ secrets.G_ADDRESS_LINE_1 }}
-      G_ADDRESS_LINE_2: ${{ secrets.G_ADDRESS_LINE_2 }}
-      G_ADDRESS_CITY: ${{ secrets.G_ADDRESS_CITY }}
-      G_ADDRESS_STATE: ${{ secrets.G_ADDRESS_STATE }}
-      G_ADDRESS_POSTAL_CODE: ${{ secrets.G_ADDRESS_POSTAL_CODE }}
-      G_ADDRESS_COUNTRY: ${{ secrets.G_ADDRESS_COUNTRY }}
-      RETURN_ADDRESS_ID: ${{ secrets.RETURN_ADDRESS_ID }}
     steps:
       - name: Set Timezone
         uses: szenius/set-timezone@v1.0
@@ -75,5 +64,17 @@ jobs:
           asset_name: daily.pdf
           asset_content_type: pdf
 
-      - name: Build LaTeX file
-        run: pipenv run python sendmail.py
+      - name: Send Mail
+        run: |
+          pipenv run python sendmail.py
+        env:
+          CLICKSEND_USERNAME: ${{ secrets.CLICKSEND_USERNAME }}
+          CLICKSEND_PASSWORD: ${{ secrets.CLICKSEND_PASSWORD }}
+          GALEN_ADDRESS_NAME: ${{ secrets.GALEN_ADDRESS_NAME }}
+          GALEN_ADDRESS_LINE_1: ${{ secrets.GALEN_ADDRESS_LINE_1 }}
+          GALEN_ADDRESS_LINE_2: ${{ secrets.GALEN_ADDRESS_LINE_2 }}
+          GALEN_ADDRESS_CITY: ${{ secrets.GALEN_ADDRESS_CITY }}
+          GALEN_ADDRESS_STATE: ${{ secrets.GALEN_ADDRESS_STATE }}
+          GALEN_ADDRESS_POSTAL_CODE: ${{ secrets.GALEN_ADDRESS_POSTAL_CODE }}
+          GALEN_ADDRESS_COUNTRY: ${{ secrets.GALEN_ADDRESS_COUNTRY }}
+          RETURN_ADDRESS_ID: ${{ secrets.RETURN_ADDRESS_ID }}

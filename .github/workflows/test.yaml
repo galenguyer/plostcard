@@ -35,35 +35,35 @@ jobs:
           python -m pip install pipenv
           pipenv install
 
-      # - name: Build LaTeX file
-      #   run: pipenv run python daily.py
+      - name: Build LaTeX file
+        run: pipenv run python daily.py
 
-      # - name: Compile LaTeX document
-      #   uses: xu-cheng/latex-action@v2
-      #   with:
-      #     root_file: daily.tex
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: daily.tex
 
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     taGALEN_name: ${{ steps.date.outputs.date }}
-      #     release_name: ${{ steps.time.outputs.time }}
-      #     draft: false
-      #     prerelease: false
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          taGALEN_name: ${{ steps.date.outputs.date }}
+          release_name: ${{ steps.time.outputs.time }}
+          draft: false
+          prerelease: false
 
-      # - name: Upload Release Asset
-      #   id: upload-release-asset 
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }} 
-      #     asset_path: ./daily.pdf
-      #     asset_name: daily.pdf
-      #     asset_content_type: pdf
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./daily.pdf
+          asset_name: daily.pdf
+          asset_content_type: pdf
 
       - name: Send Mail
         run: |
