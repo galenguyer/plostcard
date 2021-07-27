@@ -33,7 +33,7 @@ recipients = [
         "address_postal_code": int(os.environ["G_ADDRESS_POSTAL_CODE"]),
         "address_country": os.environ["G_ADDRESS_COUNTRY"],
         "return_address_id": int(os.environ["RETURN_ADDRESS_ID"]),
-        "schedule": int(time.time())+(1*60*60)
+        "schedule": int(time.time())+(24*60*60)
     }
 ]
 
