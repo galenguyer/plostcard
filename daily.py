@@ -4,10 +4,14 @@ from string import Template
 
 headers = {"User-Agent": "plostcards (chef#1911)"}
 valid_divisions = [
-    "d4cc18de-a136-4271-84f1-32516be91a80",  # Wild High
-    "456089f0-f338-4620-a014-9540868789c9",  # Mild High
-    "98c92da4-0ea7-43be-bd75-c6150e184326",  # Wild Low
-    "fadc9684-45b3-47a6-b647-3be3f0735a84",  # Mild Low
+    # "d4cc18de-a136-4271-84f1-32516be91a80",  # Wild High
+    # "456089f0-f338-4620-a014-9540868789c9",  # Mild High
+    # "98c92da4-0ea7-43be-bd75-c6150e184326",  # Wild Low
+    # "fadc9684-45b3-47a6-b647-3be3f0735a84",  # Mild Low
+    "3c34edad-4d24-40f4-b216-672d4dcbf70e", # Vault
+    "045fb323-43ec-4114-8b74-4bc0927e5947", # Hall
+    "5d80f2b8-9a4d-46af-af1c-f520ff59a5f3", # Horizon
+    "7139575e-61d7-43f1-9b9e-6bf892cdce0f", # Desert
 ]
 
 print("GET https://blaseball.com/database/simulationData")
@@ -96,7 +100,7 @@ for division in divisions:
 latex_feed = Template("    S$season-$day & $description\\\\")
 feed = ""
 for f in feedData:
-    feed += latex_feed.substitute(season=f["season"]+1, day=f["day"]+1, description=f["description"]) + "\n"
+    feed += latex_feed.substitute(season=f["season"]+1, day=f["day"]+1, description=f["description"]).encode("ascii", "ignore").decode("ascii").replace("\n","\\\\\n    . & ") + "\n"
     
 with open("daily.template", "r") as fd:
     template = fd.read()
